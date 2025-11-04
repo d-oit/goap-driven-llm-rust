@@ -1,0 +1,71 @@
+{
+ 
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/rust-code-quality.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/test-validator.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash(cargo bench:*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/benchmark-validator.py"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/coverage-analyzer.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/documentation-checker.py"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "type": "command",
+        "command": "python3 .claude/hooks/agent-integration.py"
+      }
+    ]
+  },
+  "permissions": {
+    "allowedTools": [
+      "Read(**/*.{rs,md,toml})",
+      "Edit(**/*.{rs,md,toml})",
+      "Bash(git:*)",
+      "Bash(cargo:*)",
+      "Bash(rustc:*)"
+    ]
+  },
+  "permissionMode": "acceptEdits",
+  "spinnerTipsEnabled": true
+}

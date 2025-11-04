@@ -1,0 +1,53 @@
+{
+  "version": "1.0",
+  "description": "Claude Code hooks for GOAP LLM project",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "name": "rust-code-quality",
+        "matcher": "Edit",
+        "script": "rust-code-quality.py",
+        "enabled": true,
+        "description": "Validates Rust code quality before edits"
+      },
+      {
+        "name": "test-requirement-check",
+        "matcher": "Bash(cargo test:*)",
+        "script": "test-validator.py",
+        "enabled": true,
+        "description": "Ensures test requirements are met"
+      },
+      {
+        "name": "benchmark-validation",
+        "matcher": "Bash(cargo bench:*)",
+        "script": "benchmark-validator.py",
+        "enabled": true,
+        "description": "Validates benchmark targets"
+      }
+    ],
+    "PostToolUse": [
+      {
+        "name": "coverage-analysis",
+        "matcher": "Bash",
+        "script": "coverage-analyzer.py",
+        "enabled": true,
+        "description": "Analyzes test coverage metrics"
+      },
+      {
+        "name": "documentation-check",
+        "matcher": "Edit",
+        "script": "documentation-checker.py",
+        "enabled": true,
+        "description": "Validates documentation completeness"
+      }
+    ],
+    "SessionStart": [
+      {
+        "name": "agent-integration",
+        "script": "agent-integration.py",
+        "enabled": true,
+        "description": "Initializes agents and skills"
+      }
+    ]
+  }
+}

@@ -170,7 +170,7 @@ You **MUST** consider the user input before proceeding (if not empty).
    - Include resilience/rollback when state mutation occurs: "Are rollback requirements defined for migration failures? [Gap]"
 
    **Traceability Requirements**:
-   - MINIMUM: ≥80% of items MUST include at least one traceability reference
+   - MINIMUM: ≥82% of items MUST include at least one traceability reference
    - Each item should reference: spec section `[Spec §X.Y]`, or use markers: `[Gap]`, `[Ambiguity]`, `[Conflict]`, `[Assumption]`
    - If no ID system exists: "Is a requirement & acceptance criteria ID scheme established? [Traceability]"
 

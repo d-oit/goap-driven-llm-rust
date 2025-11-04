@@ -1,0 +1,394 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: 1
+
+jobs:
+  # Code Quality Checks
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        components: rustfmt, clippy
+
+    - name: Cache cargo registry
+      uses: actions/cache@v4
+      with:
+        path: ~/.cargo/registry
+        key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+
+    - name: Cache cargo index
+      uses: actions/cache@v4
+      with:
+        path: ~/.cargo/git
+        key: ${{ runner.os }}-cargo-index-${{ hashFiles('**/Cargo.lock') }}
+
+    - name: Cache cargo build
+      uses: actions/cache@v4
+      with:
+        path: target
+        key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
+
+    - name: Install cargo components
+      run: |
+        rustup component add rustfmt
+        rustup component add clippy
+
+    - name: Check formatting
+      run: cargo fmt --all -- --check
+
+    - name: Clippy (all targets)
+      run: clippy --all-targets --all-features -- -D warnings
+
+    - name: Check warnings
+      run: |
+        # Fail build on any warnings in release mode
+        cargo check --all-features --all-targets -- -D warnings
+
+  # Security Audit
+  security:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+
+    - name: Cache cargo registry
+      uses: actions/cache@v4
+      with:
+        path: ~/.cargo/registry
+        key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+
+    - name: Install cargo-audit
+      run: cargo install cargo-audit
+
+    - name: Install cargo-deny
+      run: cargo install cargo-deny
+
+    - name: Run cargo audit
+      run: cargo audit
+
+    - name: Run cargo deny
+      run: cargo deny check
+
+  # Test Suite
+  test:
+    name: Test Suite
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        rust: [stable, beta]
+        exclude:
+          # Reduce matrix size by excluding some combinations
+          - os: windows-latest
+            rust: beta
+          - os: macos-latest
+            rust: beta
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        components: llvm-tools-preview
+
+    - name: Cache cargo registry
+      uses: actions/cache@v4
+      with:
+        path: ~/.cargo/registry
+        key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+
+    - name: Cache cargo index
+      uses: actions/cache@v4
+      with:
+        path: ~/.cargo/git
+        key: ${{ runner.os }}-cargo-index-${{ hashFiles('**/Cargo.lock') }}
+
+    - name: Cache cargo build
+      uses: actions/cache@v4
+      with:
+        path: target
+        key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
+
+    - name: Install cargo-llvm-cov
+      run: cargo install cargo-llvm-cov
+
+    - name: Run tests (unix)
+      if: runner.os != 'Windows'
+      run: |
+        cargo llvm-cov --all-features --all-targets --codecov --output-path coverage.xml
+        cargo test --all-features
+
+    - name: Run tests (windows)
+      if: runner.os == 'Windows'
+      run: |
+        cargo test --all-features
+        cargo llvm-cov --all-features --all-targets --codecov --output-path coverage.xml
+
+    - name: Upload coverage to Codecov
+      if: matrix.os == 'ubuntu-latest' && matrix.rust == 'stable'
+      uses: codecov/codecov-action@v4
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: true
+
+  # Documentation Tests
+  doc:
+    name: Documentation
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+
+    - name: Cache cargo registry
+      uses: actions/cache@v4
+      with:
+        path: ~/.cargo/registry
+        key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+
+    - name: Cache cargo index
+      uses: actions/cache@v4
+      with:
+        path: ~/.cargo/git
+        key: ${{ runner.os }}-cargo-index-${{ hashFiles('**/Cargo.lock') }}
+
+    - name: Cache cargo build
+      uses: actions/cache@v4
+      with:
+        path: target
+        key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
+
+    - name: Generate documentation
+      run: cargo doc --no-deps --all-features --document-private-items
+
+    - name: Test documentation examples
+      run: cargo test --doc --all-features
+
+  # Benchmark Tests
+  bench:
+    name: Benchmarks
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+
+    - name: Cache cargo registry
+      uses: actions/cache@v4
+      with:
+        path: ~/.cargo/registry
+        key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+
+    - name: Cache cargo index
+      uses: actions/cache@v4
+      with:
+        path: ~/.cargo/git
+        key: ${{ runner.os }}-cargo-index-${{ hashFiles('**/Cargo.lock') }}
+
+    - name: Cache cargo build
+      uses: actions/cache@v4
+      with:
+        path: target
+        key: ${{ runner.os }}-cargo-build-benchmark-${{ hashFiles('**/Cargo.lock') }}
+
+    - name: Install criterion
+      run: cargo install cargo-criterion
+
+    - name: Run benchmarks
+      run: cargo criterion --message-format=json > benchmark.json
+
+    - name: Upload benchmark results
+      uses: benchmark-action/github-action-benchmark@v1
+      if: always()
+      with:
+        tool: 'cargo'
+        output-file-path: benchmark.json
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        auto-push: false
+        comment-on-alert: true
+        alert-threshold: '150%'
+        fail-on-alert: true
+
+  # Build Binary
+  build:
+    name: Build Binary
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-musl
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+          - os: macos-latest
+            target: x86_64-apple-darwin
+          - os: macos-latest
+            target: aarch64-apple-darwin
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        targets: ${{ matrix.target }}
+
+    - name: Cache cargo registry
+      uses: actions/cache@v4
+      with:
+        path: ~/.cargo/registry
+        key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+
+    - name: Cache cargo index
+      uses: actions/cache@v4
+      with:
+        path: ~/.cargo/git
+        key: ${{ runner.os }}-cargo-index-${{ hashFiles('**/Cargo.lock') }}
+
+    - name: Cache cargo build
+      uses: actions/cache@v4
+      with:
+        path: target
+        key: ${{ runner.os }}-${{ matrix.target }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
+
+    - name: Build
+      run: cargo build --release --target ${{ matrix.target }}
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: binary-${{ matrix.target }}
+        path: |
+          target/${{ matrix.target }}/release/deps/
+          target/${{ matrix.target }}/release/your-binary-name
+
+  # Integration Tests
+  integration:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: test_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    env:
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+
+    - name: Wait for PostgreSQL
+      run: |
+        until pg_isready -h localhost -p 5432 -U postgres; do
+          echo "Waiting for PostgreSQL..."
+          sleep 2
+        done
+
+    - name: Run integration tests
+      run: cargo test --test integration -- --test-threads=1
+
+  # WebAssembly (if applicable)
+  wasm:
+    name: WebAssembly
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, '[wasm]') || github.event_name == 'push'
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        targets: wasm32-unknown-unknown
+
+    - name: Install wasm-pack
+      run: cargo install wasm-pack
+
+    - name: Build WASM
+      run: wasm-pack build --target web --out-dir pkg
+
+    - name: Test WASM
+      run: |
+        cd wasm-test
+        wasm-pack test --headless --firefox
+
+    - name: Upload WASM artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: wasm-pkg
+        path: pkg/
+
+  # Minimum Supported Rust Version (MSRV)
+  msrv:
+    name: Minimum Supported Rust Version
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@1.75
+      with:
+        components: rustfmt, clippy
+
+    - name: Check MSRV
+      run: |
+        cargo check --all-features
+        cargo clippy --all-features --all-targets -- -D warnings
+
+  # Fuzz Testing (scheduled)
+  fuzz:
+    name: Fuzz Testing
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || contains(github.event.head_commit.message, '[fuzz]')
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+
+    - name: Install cargo-fuzz
+      run: cargo install cargo-fuzz
+
+    - name: Run fuzz tests
+      run: |
+        cd fuzz
+        cargo fuzz run parse_input
+
+  # All jobs completed successfully

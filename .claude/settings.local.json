@@ -1,0 +1,35 @@
+{
+    "env": {  
+    "ANTHROPIC_BASE_URL": "https://api.minimax.io/anthropic",
+    "ANTHROPIC_AUTH_TOKEN": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJHcm91cE5hbWUiOiJEb21pbmlrIiwiVXNlck5hbWUiOiJEb21pbmlrIiwiQWNjb3VudCI6IiIsIlN1YmplY3RJRCI6IjE5ODUyMjMwNzkzMTk1NzMxNTEiLCJQaG9uZSI6IiIsIkdyb3VwSUQiOiIxOTg1MjIzMDIyMzUyNTQwMzIwIiwiUGFnZU5hbWUiOiIiLCJNYWlsIjoiZG8taXRAaWsubWUiLCJDcmVhdGVUaW1lIjoiMjAyNS0xMS0wMyAxNToyMDoyMiIsIlRva2VuVHlwZSI6MSwiaXNzIjoibWluaW1heCJ9.OvdI5dmMT8IB4GfjyzsYnv2VlKngW2wKc7sj1JzwZJ2ww4DA_8sbetcQ_IRVH6_k3JZLvDE9dph7pqBAHrP9O5ad3bZWitxALy15BcP8xoFUZs_dKnIH84JNkrsr6ygZfkqAIABUSSLvcdfRxU7RqsP_yOPo6pBKtvK817hc3-OHBWEdPgQUCekQeDiZU4-3vBrp-G8UWwDblSB7hIf1OeiVrF4r3IYUlpytt8UI1g4NG2hgcxI5qqX-8zWrqUew8tfQzhOedsSlvpSoN0Re96lyFhijF_HaIMPHdmdR-gC2VirV3ZhAS8jrmgsH6xm9xxwhv8OX9uKoia7QcKOG-A",
+    "API_TIMEOUT_MS": "3000000",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "16384",
+    "ANTHROPIC_MODEL": "MiniMax-M2",
+    "ANTHROPIC_SMALL_FAST_MODEL": "MiniMax-M2",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "MiniMax-M2",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "MiniMax-M2",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "MiniMax-M2"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(git fetch --all --prune)",
+      "Bash(.specify/scripts/bash/create-new-feature.sh --json \"Build an application that can help me organize my photos in separate photo albums. Albums are grouped by date and can be re-organized by dragging and dropping on the main page. Albums are never in other nested albums. Within each album, photos are previewed in a tile-like interface.\" --number 1 --short-name \"photo-album-manager\")",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(git clone https://github.com/anthropics/skills.git)",
+      "Bash(python ../skill-creator/scripts/package_skill.py . ../../dist)",
+      "Bash(python .claude/skills/skill-creator/scripts/package_skill.py .claude/skills/rust-clean-code ./dist)",
+      "Bash(PYTHONIOENCODING=utf-8 python .claude/skills/skill-creator/scripts/package_skill.py .claude/skills/rust-clean-code ./dist)",
+      "Bash(tree .claude/skills/rust-clean-code -L 3)",
+      "Bash(bash .specify/scripts/bash/check-prerequisites.sh --json --paths-only)",
+      "WebSearch",
+      "Bash(bash .specify/scripts/bash/setup-plan.sh --json)",
+      "Bash(cat specs/001-goap-llm-planning/contracts/api.yaml)",
+      "Bash(specs/001-goap-llm-planning/contracts/api.yaml)",
+      "Bash(specs/001-goap-llm-planning/quickstart.md)",
+      "Bash(bash .specify/scripts/bash/update-agent-context.sh claude)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
