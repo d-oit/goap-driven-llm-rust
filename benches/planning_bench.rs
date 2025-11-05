@@ -2,8 +2,8 @@
 //!
 //! Measures planning performance on varying world state sizes.
 
+#[allow(unused_imports)]
 use criterion::{Criterion, black_box, criterion_group, criterion_main};
-use goap_llm::prelude::*;
 
 fn benchmark_planning_small_state(c: &mut Criterion) {
     c.bench_function("planning_small_5_props", |b| {
