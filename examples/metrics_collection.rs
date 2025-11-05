@@ -109,7 +109,7 @@ async fn main() -> goap_llm::Result<()> {
     }
 
     // SC-008: 10-15% confidence improvement
-    if improvement >= 10.0 && improvement <= 20.0 {
+    if (10.0..=20.0).contains(&improvement) {
         println!(
             "✓ SC-008: 10-15% learning improvement ({:.1}%)",
             improvement
