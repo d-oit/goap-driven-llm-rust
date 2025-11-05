@@ -41,14 +41,24 @@ jobs:
         path: target
         key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
 
+    - name: Setup Rust
+      run: |
+        rustup default stable
+        rustup component list --installed | grep -q clippy || rustup component add clippy
+        rustup component list --installed | grep -q rustfmt || rustup component add rustfmt
+        echo "PATH=$HOME/.cargo/bin:$PATH" >> $GITHUB_PATH
+
     - name: Check formatting
       run: cargo fmt --all -- --check
 
     - name: Clippy (all targets)
-      run: clippy --all-targets --all-features -- -D warnings
+      run: |
+        export PATH="$HOME/.cargo/bin:$PATH"
+        cargo clippy --all-targets --all-features -- -D warnings
 
     - name: Check warnings
       run: |
+        export PATH="$HOME/.cargo/bin:$PATH"
         # Fail build on any warnings in release mode
         cargo check --all-features --all-targets -- -D warnings
 
