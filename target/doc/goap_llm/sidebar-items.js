@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["VERSION"],"enum":["Error"],"fn":["info"],"mod":["goap","prelude"],"struct":["LibraryInfo"],"type":["Result"]};

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["actions","cache","goals","metrics","planning","world"],"struct":["GOAPConfig","GOAPSystem"]};
