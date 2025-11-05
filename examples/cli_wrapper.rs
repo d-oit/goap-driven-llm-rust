@@ -162,6 +162,7 @@ fn parse_cli_args(args: &[String]) -> goap_llm::Result<CLIConfig> {
     Ok(config)
 }
 
+#[allow(dead_code)]
 fn build_actions_from_config(_config: &CLIConfig) -> goap_llm::Result<Vec<Action>> {
     Ok(vec![
         Action::new(ActionType::CheckPatternCache).with_cost(30),

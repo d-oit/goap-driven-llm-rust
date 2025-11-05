@@ -68,6 +68,7 @@ async fn main() -> goap_llm::Result<()> {
 }
 
 // Helper to create system (needed for compilation)
+#[allow(dead_code)]
 fn system() -> GOAPSystem {
     GOAPSystem::new()
 }
