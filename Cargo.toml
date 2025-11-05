@@ -5,7 +5,7 @@ edition = "2021"
 authors = ["Your Name <your.email@example.com>"]
 license = "MIT OR Apache-2.0"
 description = "Goal-Oriented Action Planning (GOAP) system for strategic LLM reasoning"
-repository = "https://github.com/yourorg/goap-driven-llm-rust"
+repository = "https://github.com/d-oit/goap-driven-llm-rust"
 keywords = ["goap", "planning", "llm", "ai", "strategic-reasoning"]
 categories = ["web-programming", "api-bindings", "command-line-utilities"]
 

@@ -2,6 +2,7 @@
 //!
 //! Measures pattern confidence improvement and adaptive learning.
 
+#[allow(unused_imports)]
 use criterion::{Criterion, black_box, criterion_group, criterion_main};
 use goap_llm::prelude::*;
 
