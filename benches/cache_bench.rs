@@ -22,7 +22,7 @@ fn benchmark_pattern_lookup_latency(c: &mut Criterion) {
 fn benchmark_cache_hit_rate(c: &mut Criterion) {
     c.bench_function("cache_hit_rate", |b| {
         // Setup cache with varying pattern popularity
-        let patterns = [
+        let _patterns = [
             ("hot_pattern", 100), // 100 hits
             ("warm_pattern", 50), // 50 hits
             ("cold_pattern", 10), // 10 hits
