@@ -60,7 +60,7 @@ jobs:
       run: |
         export PATH="$HOME/.cargo/bin:$PATH"
         # Fail build on any warnings in release mode
-        cargo check --all-features --all-targets -- -D warnings
+        RUSTFLAGS="-D warnings" cargo check --all-features --all-targets
 
   # Security Audit
   security:
