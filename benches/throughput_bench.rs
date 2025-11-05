@@ -38,7 +38,7 @@ fn benchmark_resource_utilization(c: &mut Criterion) {
     c.bench_function("resource_cpu_mem_usage", |b| {
         b.iter(|| {
             let cpu_usage_percent = black_box(45.5);
-            let memory_mb = black_box(128);
+            let _memory_mb = black_box(128);
             let requests_per_minute = black_box(120);
 
             // Efficiency: requests per minute per CPU %
