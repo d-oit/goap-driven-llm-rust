@@ -5,6 +5,9 @@
 #[cfg(test)]
 mod tests {
     use super::*;
+    use super::create_test_world_state;
+    use super::create_test_actions;
+    use super::create_test_goals;
     use goap_llm::prelude::*;
 
     #[tokio::test]
