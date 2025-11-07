@@ -1,0 +1,57 @@
+[graph]
+template = """
+{node}
+{{
+  name = "{name}"
+  version = "{version}"
+  license = "{license}"
+  dependencies = {len(dependencies)}
+}}
+"""
+
+[graph.all]
+tolerate_warnings = true
+
+[licenses]
+allow = [
+    "Apache-2.0",
+    "MIT",
+    "ISC",
+    "Unicode-3.0",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "MPL-2.0",
+]
+unlicense = "warn"
+allow-osi-fsf-conflicts = true
+copyleft = "warn"
+
+[[licenses.clarify]]
+name = "ring"
+expression = "MIT AND ISC AND OpenSSL"
+license-files = [
+    { path = "COPYRIGHT", hash = 0xbd0eeddb }
+]
+
+[advisories]
+db-path = "~/.cargo/advisory-db"
+db-urls = ["https://github.com/rustsec/advisory-db"]
+vulnerability = "warn"
+unmaintained = "warn"
+unsound = "warn"
+yanked = "warn"
+ignore = []
+
+[bans]
+multiple-versions = "warn"
+wildcards = "allow"
+highlight = "all"
+workspace-default-features = "allow"
+external-default-features = "allow"
+allow = []
+
+[sources]
+unknown-registry = "warn"
+unknown-git = "warn"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
+allow-git = []

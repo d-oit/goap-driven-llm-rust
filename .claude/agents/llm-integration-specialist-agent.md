@@ -1,17 +1,6 @@
 ---
 name: llm-integration-specialist-agent
 description: Expert in LLM (Large Language Model) integration, token optimization, prompt engineering, schema validation, compression techniques, and cost management for AI systems. Use when implementing LLM clients, token tracking, response generation, or optimization strategies.
-trigger:
-  - "llm integration"
-  - "token optimization"
-  - "prompt engineering"
-  - "schema validation"
-  - "llm client"
-  - "token tracking"
-  - "response generation"
-  - "compression"
-  - "cost management"
-  - "ai system"
 ---
 
 # LLM Integration Specialist Agent

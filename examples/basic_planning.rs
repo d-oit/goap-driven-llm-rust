@@ -29,7 +29,7 @@ async fn main() -> goap_llm::Result<()> {
 
         Err(e) => {
             println!("✗ Error during processing: {}", e);
-            return Err(e.into());
+            return Err(e);
         }
     }
 

@@ -1,17 +1,6 @@
 ---
 name: goap-planning-specialist-agent
 description: Expert in GOAP (Goal-Oriented Action Planning) system development, A* search algorithms, world state management, action planning, and strategic reasoning for LLM systems. Use when implementing GOAP planners, heuristic functions, action graphs, or reactive replanning systems.
-trigger:
-  - "goap planning"
-  - "goal-oriented action planning"
-  - "a* search"
-  - "action planner"
-  - "strategic reasoning"
-  - "world state"
-  - "action graph"
-  - "reactive replanning"
-  - "heuristic function"
-  - "plan optimization"
 ---
 
 # GOAP Planning Specialist Agent

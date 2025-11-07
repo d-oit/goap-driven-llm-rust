@@ -1,12 +1,6 @@
 ---
 name: theme-factory-agent
 description: Creates and applies professional themes to artifacts and documents. Provides 10 pre-set themes and custom theme generation. Use when styling documents, presentations, or visual content with consistent, professional appearance.
-trigger:
-  - "create theme"
-  - "apply theme"
-  - "style document"
-  - "custom theme"
-  - "theme design"
 ---
 
 # Theme Factory Agent

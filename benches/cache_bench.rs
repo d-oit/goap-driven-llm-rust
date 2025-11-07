@@ -22,7 +22,7 @@ fn benchmark_pattern_lookup_latency(c: &mut Criterion) {
 fn benchmark_cache_hit_rate(c: &mut Criterion) {
     c.bench_function("cache_hit_rate", |b| {
         // Setup cache with varying pattern popularity
-        let patterns = vec![
+        let _patterns = [
             ("hot_pattern", 100), // 100 hits
             ("warm_pattern", 50), // 50 hits
             ("cold_pattern", 10), // 10 hits
@@ -94,8 +94,8 @@ fn benchmark_eviction_performance(c: &mut Criterion) {
 fn benchmark_pattern_similarity(c: &mut Criterion) {
     c.bench_function("similarity_calc_lsh", |b| {
         b.iter(|| {
-            let hash1 = vec![1u8; 32];
-            let hash2 = vec![2u8; 32];
+            let hash1 = [1u8; 32];
+            let hash2 = [2u8; 32];
 
             // Simplified LSH similarity: Jaccard index
             let common = hash1

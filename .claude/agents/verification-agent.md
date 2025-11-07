@@ -1,12 +1,6 @@
 ---
 name: verification-agent
 description: Implements comprehensive verification workflows before task completion. Ensures all requirements are met, tests pass, documentation is complete, and code quality standards are followed. Use before finalizing any development task or feature.
-trigger:
-  - "verify before completion"
-  - "quality check"
-  - "pre-completion verification"
-  - "ensure completion"
-  - "final verification"
 ---
 
 # Verification Agent

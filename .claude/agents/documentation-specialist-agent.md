@@ -1,16 +1,6 @@
 ---
 name: documentation-specialist-agent
 description: Expert in Rust API documentation (rustdoc), markdown guides, README files, architectural documentation, user tutorials, and comprehensive documentation systems. Use when creating API docs, user guides, developer documentation, or improving documentation quality for GOAP systems.
-trigger:
-  - "documentation"
-  - "rustdoc"
-  - "api documentation"
-  - "user guide"
-  - "developer guide"
-  - "readme"
-  - "markdown"
-  - "tutorial"
-  - "architectural documentation"
 ---
 
 # Documentation Specialist Agent

@@ -29,7 +29,7 @@ async fn main() -> goap_llm::Result<()> {
         let duration = start.elapsed();
 
         match result {
-            Ok(response) => {
+            Ok(_response) => {
                 println!("✓ Request processed successfully");
                 println!("  Duration: {:?}\n", duration);
 

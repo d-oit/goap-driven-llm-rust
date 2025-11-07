@@ -1,13 +1,6 @@
 ---
 name: rust-clean-code-agent
 description: Enforces Rust best practices and clean code principles. Guides code organization, error handling with Result/thiserror/anyhow, async patterns with Tokio, testing with tokio-test and mockall, and comprehensive documentation standards. Use when reviewing, writing, or refactoring Rust code.
-trigger:
-  - "rust code review"
-  - "clean rust code"
-  - "rust best practices"
-  - "refactor rust"
-  - "rust error handling"
-  - "rust testing"
 ---
 
 # Rust Clean Code Agent

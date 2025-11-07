@@ -4,56 +4,51 @@
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-    use goap_llm::prelude::*;
+    use crate::integration::create_test_request;
+    use goap_llm::*;
 
     #[tokio::test]
-    async fn test_planner_creates_valid_plan() {
+    async fn test_system_processes_request() {
         // Given
-        let world_state = create_test_world_state();
-        let actions = create_test_actions();
-        let goals = create_test_goals();
+        let mut system = GOAPSystem::new();
+        let request = create_test_request();
 
         // When
-        let planner = Planner::new();
-        let plan = planner.create_plan(&world_state, &goals, &actions).await;
+        let result = system.process_request(request).await;
 
         // Then
-        assert!(plan.is_ok(), "Planner should create a valid plan");
-        let plan = plan.unwrap();
-        assert!(!plan.steps().is_empty(), "Plan should have at least one step");
+        assert!(result.is_ok(), "System should process request successfully");
+        let response = result.unwrap();
+        assert!(response.contains("Processed request"), "Response should confirm processing");
     }
 
     #[tokio::test]
-    async fn test_executor_executes_plan() {
+    async fn test_system_validates_request() {
         // Given
-        let world_state = create_test_world_state();
-        let actions = create_test_actions();
+        let system = GOAPSystem::new();
+        let request = create_test_request();
 
         // When
-        let executor = Executor::new();
-        let result = executor.execute(&world_state, &actions).await;
+        let result = system.validate_request(request).await;
 
         // Then
-        assert!(result.is_ok(), "Executor should successfully execute the plan");
+        assert!(result.is_ok(), "System should validate request successfully");
+        let validation = result.unwrap();
+        assert!(validation.valid, "Request should be valid");
     }
 
     #[tokio::test]
-    async fn test_planner_executor_integration() {
+    async fn test_system_pattern_operations() {
         // Given
-        let world_state = create_test_world_state();
-        let actions = create_test_actions();
-        let goals = create_test_goals();
+        let system = GOAPSystem::new();
+        let _request = "Create a GitHub workflow".to_string();
 
         // When
-        let planner = Planner::new();
-        let plan = planner.create_plan(&world_state, &goals, &actions).await;
-        assert!(plan.is_ok(), "Planning should succeed");
-
-        let executor = Executor::new();
-        let result = executor.execute(&world_state, &actions).await;
+        let result = system.list_patterns().await;
 
         // Then
-        assert!(result.is_ok(), "Full planner-executor flow should succeed");
+        assert!(result.is_ok(), "Should list patterns successfully");
+        let _patterns = result.unwrap();
+        // Patterns list can be empty initially, that's fine
     }
 }

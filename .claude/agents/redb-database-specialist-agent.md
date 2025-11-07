@@ -1,17 +1,6 @@
 ---
 name: redb-database-specialist-agent
 description: Expert in redb embedded database, ACID transactions, data persistence, pattern storage, schema caching, and skill-scoped isolation for GOAP systems. Use when implementing redb operations, managing data persistence, optimizing database performance, or handling concurrent access to pattern caches.
-trigger:
-  - "redb database"
-  - "embedded database"
-  - "data persistence"
-  - "acidity transactions"
-  - "pattern storage"
-  - "schema cache"
-  - "database optimization"
-  - "concurrent access"
-  - "skill isolation"
-  - "redb operations"
 ---
 
 # redb Database Specialist Agent

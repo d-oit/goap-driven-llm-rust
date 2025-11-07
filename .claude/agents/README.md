@@ -5,9 +5,9 @@ This directory contains Claude Code sub-agents that provide specialized expertis
 ## Agent Structure
 
 Each agent is a markdown file with YAML frontmatter containing:
-- **name**: Unique identifier for the agent (in hyphen-case)
-- **description**: What the agent does and when to use it
-- **trigger**: Keywords or patterns that activate the agent
+- **name** (required): Unique identifier using lowercase letters and hyphens
+- **description** (required): Natural language description of the subagent's purpose
+- **tools** (optional): Comma-separated list of specific tools. If omitted, inherits all tools from the main thread
 
 The markdown content describes the agent's expertise, capabilities, usage patterns, and implementation guidelines.
 
@@ -254,7 +254,10 @@ Agents will:
 
 To add new agents:
 1. Create a new markdown file with `-agent.md` suffix
-2. Include YAML frontmatter with name, description, and triggers
+2. Include YAML frontmatter with:
+   - `name` (required): Unique identifier using lowercase letters and hyphens
+   - `description` (required): Natural language description of the subagent's purpose
+   - `tools` (optional): Comma-separated list of specific tools
 3. Add comprehensive documentation and examples
 4. Follow the established pattern from existing agents
 

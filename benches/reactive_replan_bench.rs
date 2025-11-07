@@ -15,7 +15,7 @@ fn benchmark_failure_recovery_rate(c: &mut Criterion) {
                 total_attempts += 1;
 
                 // Simulate recovery logic
-                let failure_scenarios = vec![
+                let _failure_scenarios = [
                     "validation_error",
                     "token_budget_exceeded",
                     "schema_not_found",
@@ -85,7 +85,7 @@ fn benchmark_success_rate_after_replanning(c: &mut Criterion) {
 fn benchmark_reactive_trigger_detection(c: &mut Criterion) {
     c.bench_function("trigger_detection_time", |b| {
         b.iter(|| {
-            let triggers = vec![
+            let triggers = [
                 "token_budget_critical",
                 "validation_failed",
                 "execution_timeout",

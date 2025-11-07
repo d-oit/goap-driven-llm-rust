@@ -5,7 +5,7 @@ SessionStart hook for agent integration.
 Initializes session with:
 - Available agents from .claude/agents/
 - Agent activation patterns
-- Project context from AGENTS.md and CLAUDE.md
+- Project context from AGENTS.md
 - Skill references from .claude/skills/
 
 Provides contextual agent recommendations.
@@ -59,12 +59,7 @@ def load_project_context():
     # Load AGENTS.md
     agents_md = Path('AGENTS.md')
     if agents_md.exists():
-        context['agents_md'] = agents_md.read_text()
-    
-    # Load CLAUDE.md
-    claude_md = Path('CLAUDE.md')
-    if claude_md.exists():
-        context['claude_md'] = claude_md.read_text()
+        context['agents_md'] = agents_md.read_text()      
     
     # Load Cargo.toml for dependencies
     cargo_toml = Path('Cargo.toml')

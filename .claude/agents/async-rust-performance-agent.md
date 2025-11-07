@@ -1,17 +1,6 @@
 ---
 name: async-rust-performance-agent
 description: Expert in Rust async/await patterns, Tokio runtime optimization, concurrent data structures (DashMap, LRU), single-threaded async performance, and efficient I/O operations. Use when optimizing async code, managing concurrent access, or tuning Tokio performance for GOAP systems.
-trigger:
-  - "async rust"
-  - "tokio performance"
-  - "concurrent data structures"
-  - "async optimization"
-  - "tokio runtime"
-  - "dashmap"
-  - "lru cache"
-  - "async I/O"
-  - "single-threaded async"
-  - "performance tuning"
 ---
 
 # Async Rust Performance Agent

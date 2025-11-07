@@ -1,12 +1,6 @@
 ---
 name: skill-creator-agent
 description: Guides the creation of new Claude skills following best practices. Provides templates, validation tools, and step-by-step workflows for skill development. Use when creating custom skills to extend Claude's capabilities.
-trigger:
-  - "create skill"
-  - "new skill"
-  - "skill template"
-  - "build skill"
-  - "skill development"
 ---
 
 # Skill Creator Agent

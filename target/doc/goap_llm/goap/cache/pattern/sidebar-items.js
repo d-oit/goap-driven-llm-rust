@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["SimilarityAlgorithm"],"struct":["PatternSimilarity","SuccessPattern"]};

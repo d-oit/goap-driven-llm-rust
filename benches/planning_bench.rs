@@ -2,13 +2,13 @@
 //!
 //! Measures planning performance on varying world state sizes.
 
+#[allow(unused_imports)]
 use criterion::{Criterion, black_box, criterion_group, criterion_main};
-use goap_llm::prelude::*;
 
 fn benchmark_planning_small_state(c: &mut Criterion) {
     c.bench_function("planning_small_5_props", |b| {
         b.iter(|| {
-            let mut world_state = (5000, "test".to_string());
+            let world_state = (5000, "test".to_string());
             for i in 0..5 {
                 // Simulate setting property
                 let _prop = i;
@@ -25,7 +25,7 @@ fn benchmark_planning_small_state(c: &mut Criterion) {
 fn benchmark_planning_medium_state(c: &mut Criterion) {
     c.bench_function("planning_medium_15_props", |b| {
         b.iter(|| {
-            let mut world_state = (5000, "test".to_string());
+            let world_state = (5000, "test".to_string());
             for i in 0..15 {
                 // Simulate setting property
                 let _prop = i;
@@ -44,7 +44,7 @@ fn benchmark_planning_medium_state(c: &mut Criterion) {
 fn benchmark_planning_large_state(c: &mut Criterion) {
     c.bench_function("planning_large_50_props", |b| {
         b.iter(|| {
-            let mut world_state = (5000, "test".to_string());
+            let world_state = (5000, "test".to_string());
             for i in 0..50 {
                 // Simulate setting property
                 let _prop = format!("pattern{}", i);

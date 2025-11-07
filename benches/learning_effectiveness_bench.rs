@@ -2,8 +2,8 @@
 //!
 //! Measures pattern confidence improvement and adaptive learning.
 
+#[allow(unused_imports)]
 use criterion::{Criterion, black_box, criterion_group, criterion_main};
-use goap_llm::prelude::*;
 
 fn benchmark_pattern_confidence_improvement(c: &mut Criterion) {
     c.bench_function("confidence_improvement_cycle", |b| {

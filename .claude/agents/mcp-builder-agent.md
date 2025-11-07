@@ -1,12 +1,6 @@
 ---
 name: mcp-builder-agent
 description: Guides development of high-quality MCP (Model Context Protocol) servers. Provides comprehensive workflow from research to evaluation, supporting Python (FastMCP) and TypeScript implementations. Use when building MCP servers to integrate external APIs or services.
-trigger:
-  - "build mcp server"
-  - "create mcp integration"
-  - "mcp protocol"
-  - "model context protocol"
-  - "mcp server development"
 ---
 
 # MCP Builder Agent
