@@ -15,14 +15,17 @@ mod integration {
     mod test_token_budget;
 
     // Helper functions for creating test data
+    #[allow(dead_code)]
     pub fn create_test_request() -> String {
         "Create a test workflow".to_string()
     }
 
+    #[allow(dead_code)]
     pub fn create_test_system() -> GOAPSystem {
         GOAPSystem::new()
     }
 
+    #[allow(dead_code)]
     pub fn create_custom_system(pattern_cache_size: usize, schema_cache_size: usize) -> GOAPSystem {
         let config = GOAPConfig {
             pattern_cache_size,
