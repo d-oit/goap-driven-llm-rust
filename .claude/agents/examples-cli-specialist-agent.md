@@ -1,16 +1,6 @@
 ---
 name: examples-cli-specialist-agent
 description: Expert in creating Rust CLI applications, example programs, command-line interfaces, JSON I/O, configuration management, and user-friendly CLI tools for GOAP systems. Use when building CLI wrappers, creating runnable examples, or implementing command-line interfaces.
-trigger:
-  - "cli application"
-  - "command line interface"
-  - "example programs"
-  - "clap"
-  - "argparse"
-  - "json i/o"
-  - "configuration"
-  - "cli design"
-  - "command-line tool"
 ---
 
 # Examples/CLI Specialist Agent

@@ -1,16 +1,6 @@
 ---
 name: benchmarking-specialist-agent
 description: Expert in Rust benchmarking with Criterion, performance testing, regression detection, throughput measurement, and automated performance validation. Use when setting up benchmarks, measuring performance, analyzing bottlenecks, or creating performance reports for GOAP systems.
-trigger:
-  - "benchmarking"
-  - "performance testing"
-  - "criterion"
-  - "throughput"
-  - "regression detection"
-  - "performance analysis"
-  - "load testing"
-  - "profiling"
-  - "performance metrics"
 ---
 
 # Benchmarking Specialist Agent

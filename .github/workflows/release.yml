@@ -101,19 +101,19 @@ jobs:
         include:
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
-            binary_name: your-binary-name
+            binary_name: goap-llm
           - os: ubuntu-latest
             target: x86_64-unknown-linux-musl
-            binary_name: your-binary-name
+            binary_name: goap-llm
           - os: windows-latest
             target: x86_64-pc-windows-msvc
-            binary_name: your-binary-name.exe
+            binary_name: goap-llm.exe
           - os: macos-latest
             target: x86_64-apple-darwin
-            binary_name: your-binary-name
+            binary_name: goap-llm
           - os: macos-latest
             target: aarch64-apple-darwin
-            binary_name: your-binary-name
+            binary_name: goap-llm
 
     steps:
     - uses: actions/checkout@v4
@@ -163,7 +163,20 @@ jobs:
     - name: Generate checksums
       run: |
         cd release
-        shasum -a 256 * > checksums.txt
+        if [[ "${{ matrix.os }}" == "Windows" ]]; then
+          # Windows PowerShell
+          Get-FileHash * | ForEach-Object { "$($_.Hash.ToLower())  $($_.Path)" } | Out-File -FilePath checksums.txt -Encoding utf8
+        else
+          # Unix (Linux/macOS)
+          if command -v sha256sum >/dev/null 2>&1; then
+            sha256sum * > checksums.txt
+          elif command -v shasum >/dev/null 2>&1; then
+            shasum -a 256 * > checksums.txt
+          else
+            echo "No checksum tool found" >&2
+            exit 1
+          fi
+        fi
         cat checksums.txt
 
     - name: Upload build artifacts
@@ -315,9 +328,17 @@ jobs:
     - name: Update formula
       run: |
         VERSION="${{ needs.validate.outputs.version }}"
-        SHA256=$(shasum -a 256 release-assets/*darwin* | cut -d' ' -f1)
-        sed -i '' "s/sha256 \".*\"/sha256 \"$SHA256\"/g" Formula/your-repo.rb
-        sed -i '' "s/version \".*\"/version \"$VERSION\"/g" Formula/your-repo.rb
+        if [[ "${{ matrix.os }}" == "macOS" ]]; then
+          # macOS
+          SHA256=$(shasum -a 256 release-assets/*darwin* | cut -d' ' -f1)
+          sed -i '' "s/sha256 \".*\"/sha256 \"$SHA256\"/g" Formula/your-repo.rb
+          sed -i '' "s/version \".*\"/version \"$VERSION\"/g" Formula/your-repo.rb
+        else
+          # Linux
+          SHA256=$(sha256sum release-assets/*darwin* | cut -d' ' -f1)
+          sed -i "s/sha256 \".*\"/sha256 \"$SHA256\"/g" Formula/your-repo.rb
+          sed -i "s/version \".*\"/version \"$VERSION\"/g" Formula/your-repo.rb
+        fi
 
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v6
@@ -348,8 +369,15 @@ jobs:
     - name: Update PKGBUILD
       run: |
         VERSION="${{ needs.validate.outputs.version }}"
-        sed -i "s/pkgver=.*/pkgver=$VERSION/" PKGBUILD
-        sed -i "s/pkgrel=.*/pkgrel=1/" PKGBUILD
+        if [[ "${{ matrix.os }}" == "macOS" ]]; then
+          # macOS
+          sed -i '' "s/pkgver=.*/pkgver=$VERSION/" PKGBUILD
+          sed -i '' "s/pkgrel=.*/pkgrel=1/" PKGBUILD
+        else
+          # Linux
+          sed -i "s/pkgver=.*/pkgver=$VERSION/" PKGBUILD
+          sed -i "s/pkgrel=.*/pkgrel=1/" PKGBUILD
+        fi
         updpkgsums
         generate_SSH_config
 
@@ -399,26 +427,26 @@ jobs:
         CARGO_TOML="Cargo.toml"
         VERSION="${{ needs.validate.outputs.version }}"
         NEXT_PATCH=$(echo $VERSION | awk -F. '{print $1"."$2"."$3+1}')
-        sed -i.bak "s/^version = .*/version = \"$NEXT_PATCH-dev\"/" $CARGO_TOML
-        rm $CARGO_TOML.bak
+        # This job runs on ubuntu-latest, so use Linux syntax
+        sed -i "s/^version = .*/version = \"$NEXT_PATCH-dev\"/" $CARGO_TOML
 
     - name: Update CHANGELOG.md for next version
       run: |
         if [[ -f CHANGELOG.md ]]; then
           DATE=$(date +%Y-%m-%d)
-          # Prepend new section to CHANGELOG
-          sed -i.bak "1i\\
-          \\
-            n## [Unreleased] - $DATE\\
-            \\
-            n### Added\\
-            n### Changed\\
-            n### Deprecated\\
-            n### Removed\\
-            n### Fixed\\
-            n### Security\\
-            n" CHANGELOG.md
-          rm CHANGELOG.md.bak
+          # Create a temporary file for the new content
+          TMP_FILE=$(mktemp)
+          echo "## [Unreleased] - $DATE" > $TMP_FILE
+          echo "" >> $TMP_FILE
+          echo "### Added" >> $TMP_FILE
+          echo "### Changed" >> $TMP_FILE
+          echo "### Deprecated" >> $TMP_FILE
+          echo "### Removed" >> $TMP_FILE
+          echo "### Fixed" >> $TMP_FILE
+          echo "### Security" >> $TMP_FILE
+          echo "" >> $TMP_FILE
+          cat CHANGELOG.md >> $TMP_FILE
+          mv $TMP_FILE CHANGELOG.md
         fi
 
     - name: Create Pull Request for next version

@@ -1,13 +1,6 @@
 ---
 name: webapp-testing-agent
 description: Provides comprehensive toolkit for testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing screenshots, and viewing browser logs. Use when testing or automating interactions with web applications.
-trigger:
-  - "test webapp"
-  - "automate browser"
-  - "playwright testing"
-  - "web application testing"
-  - "ui automation"
-  - "browser testing"
 ---
 
 # Web App Testing Agent

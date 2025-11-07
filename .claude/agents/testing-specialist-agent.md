@@ -1,17 +1,6 @@
 ---
 name: testing-specialist-agent
 description: Expert in Rust testing strategies, tokio-test for async tests, mockall for mocking, proptest for property-based testing, integration testing, and comprehensive test coverage for GOAP systems. Use when writing unit tests, integration tests, property-based tests, or achieving 82% code coverage requirements.
-trigger:
-  - "rust testing"
-  - "unit tests"
-  - "integration tests"
-  - "property-based testing"
-  - "tokio-test"
-  - "mockall"
-  - "proptest"
-  - "test coverage"
-  - "async testing"
-  - "mocking"
 ---
 
 # Testing Specialist Agent

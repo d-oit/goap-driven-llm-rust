@@ -4,8 +4,7 @@
 
 #[cfg(test)]
 mod integration {
-    use super::*;
-    use goap_llm::prelude::*;
+    use goap_llm::*;
 
     // Re-export integration test modules
     mod test_full_request_flow;
@@ -16,21 +15,20 @@ mod integration {
     mod test_token_budget;
 
     // Helper functions for creating test data
-    pub fn create_test_world_state() -> WorldState {
-        WorldState::new()
+    pub fn create_test_request() -> String {
+        "Create a test workflow".to_string()
     }
 
-    pub fn create_test_actions() -> Vec<Action> {
-        // Create some basic test actions
-        vec![
-            Action::new(ActionType::GenerateResponse),
-            Action::new(ActionType::CheckPatternCache),
-        ]
+    pub fn create_test_system() -> GOAPSystem {
+        GOAPSystem::new()
     }
 
-    pub fn create_test_goals() -> Vec<Goal> {
-        // Create some basic test goals - keep them simple for now
-        // Since the actual Goal constructor isn't critical for tests
-        vec![]
+    pub fn create_custom_system(pattern_cache_size: usize, schema_cache_size: usize) -> GOAPSystem {
+        let config = GOAPConfig {
+            pattern_cache_size,
+            schema_cache_size,
+            ..Default::default()
+        };
+        GOAPSystem::with_config(config)
     }
 }

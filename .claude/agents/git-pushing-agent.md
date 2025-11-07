@@ -1,13 +1,6 @@
 ---
 name: git-pushing-agent
 description: Automates Git workflows with conventional commit messages. Stages all changes, creates properly formatted commits, and pushes to remote branches. Activates automatically when users mention pushing changes, committing, or saving work to remote.
-trigger: 
-  - "push changes"
-  - "commit and push"
-  - "push to github"
-  - "save to github"
-  - "git push"
-  - "conventional commit"
 ---
 
 # Git Pushing Agent
