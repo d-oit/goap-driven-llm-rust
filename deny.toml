@@ -22,7 +22,6 @@ license-files = [
 db-path = "~/.cargo/advisory-db"
 db-urls = ["https://github.com/rustsec/advisory-db"]
 vulnerability = "warn"
-unmaintained = "warn"
 unsound = "warn"
 yanked = "warn"
 ignore = []
