@@ -19,7 +19,10 @@ mod tests {
         // Then
         assert!(result.is_ok(), "System should process request successfully");
         let response = result.unwrap();
-        assert!(response.contains("Processed request"), "Response should confirm processing");
+        assert!(
+            response.contains("Processed request"),
+            "Response should confirm processing"
+        );
     }
 
     #[tokio::test]
@@ -32,7 +35,10 @@ mod tests {
         let result = system.validate_request(request).await;
 
         // Then
-        assert!(result.is_ok(), "System should validate request successfully");
+        assert!(
+            result.is_ok(),
+            "System should validate request successfully"
+        );
         let validation = result.unwrap();
         assert!(validation.valid, "Request should be valid");
     }

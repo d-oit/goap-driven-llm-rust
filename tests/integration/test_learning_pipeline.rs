@@ -19,7 +19,10 @@ mod tests {
 
         // Then - verify request was processed
         let response = result.unwrap();
-        assert!(response.contains("Processed request"), "Should have processed request");
+        assert!(
+            response.contains("Processed request"),
+            "Should have processed request"
+        );
     }
 
     #[tokio::test]

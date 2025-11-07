@@ -83,6 +83,9 @@ mod tests {
         let _matches3 = cache.find_similar_patterns("request_6", 0.0);
 
         let stats_after = cache.get_stats();
-        assert!(stats_after.pattern_lookups > 0, "Should have performed lookups");
+        assert!(
+            stats_after.pattern_lookups > 0,
+            "Should have performed lookups"
+        );
     }
 }

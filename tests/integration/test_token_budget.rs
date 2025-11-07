@@ -23,7 +23,10 @@ mod tests {
         // Then
         assert!(result.is_ok(), "Request should complete within budget");
         let response = result.unwrap();
-        assert!(response.contains("Processed"), "Should have processed the request");
+        assert!(
+            response.contains("Processed"),
+            "Should have processed the request"
+        );
     }
 
     #[tokio::test]
@@ -73,7 +76,10 @@ mod tests {
         // Then
         assert!(result.is_ok(), "Request should complete");
         let response = result.unwrap();
-        assert!(response.contains("Tokens"), "Response should mention token usage");
+        assert!(
+            response.contains("Tokens"),
+            "Response should mention token usage"
+        );
     }
 
     #[tokio::test]
