@@ -8,7 +8,6 @@ allow = [
     "BSD-3-Clause",
     "MPL-2.0",
 ]
-unlicensed = "warn"
 copyleft = "warn"
 
 [[licenses.clarify]]
@@ -17,14 +16,6 @@ expression = "MIT AND ISC AND OpenSSL"
 license-files = [
     { path = "COPYRIGHT", hash = 0xbd0eeddb }
 ]
-
-[advisories]
-db-path = "~/.cargo/advisory-db"
-db-urls = ["https://github.com/rustsec/advisory-db"]
-vulnerability = "warn"
-unsound = "warn"
-yanked = "warn"
-ignore = []
 
 [bans]
 multiple-versions = "warn"
